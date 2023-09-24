@@ -1,0 +1,76 @@
+#!/bin/bash
+
+if [[ -f "./env.sh" ]]; then
+  echo "Use env variables from file ${PWD}/env.sh"
+  source ./env.sh
+fi
+
+workDir="${WORKING_DIRECTORY:=~/WorkSpace}"
+
+help() {
+  echo "
+    Usage:
+    ./application init - init working directory
+    ./application run - launch the docker-compose
+    ./application clean - clean up working directory and shut down docker-compose
+  "
+}
+
+init() {
+  mkdir -p "${workDir}"
+  cd "${workDir}" || exit
+
+  if [[ ! -d "script-evaluation" ]]; then
+    git clone https://github.com/Alex21022001/script-evaluation.git
+  fi
+
+  cd "script-evaluation" || exit
+
+  echo "Working directory has been initialized"
+}
+
+run() {
+  cd "${workDir}/script-evaluation" || exit
+
+  echo "Running docker-compose.yml"
+
+  if docker-compose up -d --build; then
+    echo "Docker compose is UP"
+  fi
+}
+
+clean() {
+  cd "${workDir}/script-evaluation" || exit
+
+  echo "Stopping docker containers"
+  docker-compose down
+
+  echo "Removing working directory ${workDir}"
+  rm -rf "${workDir}"
+
+  echo "Working directory has been deleted"
+}
+
+case "$1" in
+help)
+  help
+  ;;
+
+init)
+  init
+  ;;
+
+clean)
+  clean
+  ;;
+
+run)
+  run
+  ;;
+
+*)
+  echo "This command $1 is not valid"
+  help
+  exit 1
+  ;;
+esac
