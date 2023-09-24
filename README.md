@@ -1,4 +1,4 @@
-# Script-evaluation-bash
+# Script-evaluation-bash-script
 
 This repository includes bash script (application) that is used for initializing,
 running the script-evaluation app and cleaning the working directory afterwards.
