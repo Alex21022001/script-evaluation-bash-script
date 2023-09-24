@@ -19,7 +19,7 @@ used by the main script if you don't do it the default values will be used other
 2) Clone this repository.
 3) Go to the obtained directory.
 ```bash
- cd script-evaluation-bash
+ cd script-evaluation-bash-script
 ```
 4) Run the script with help arg to see possible params
 ```bash
